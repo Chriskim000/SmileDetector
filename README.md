@@ -2,7 +2,9 @@
 #AI #OpenCV #Why so serious?
 
 Smile_Detector.py                           #Main file
+
 haarcascade_frontalface_default.xml         #Face trainning file from Reference URL 2
+
 haarcascade_smile.xml                       #Smile trainning file from Reference URL 2
 
 Reference URL: 
