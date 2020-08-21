@@ -8,12 +8,12 @@
 
 from cv2 import cv2
 
-#Face classifier:#Path of haarcascade xml file
+#Face classifier:#Please make sure the xml files are in the correct path, must save in the same directory with Smile_Detector.py file.
 face_detector  = cv2.CascadeClassifier('/Users/chris/Documents/VScode_Code/MyPortfolio/SmileDetector/haarcascade_frontalface_default.xml')        
 smile_detector  = cv2.CascadeClassifier('/Users/chris/Documents/VScode_Code/MyPortfolio/SmileDetector/haarcascade_smile.xml')    #detect  teeth smiling     
 '''
-Face detector accurity is much better than smile detector beacuse:
-1. Face has more training data than smile.
+Face detector accurity is much better than smile detector because:
+1. Face has more training data and source than smile.
 2. Face has more features than smile.
 '''
 #Grab Webcam feed
@@ -32,22 +32,22 @@ while True:
     frame_grayscale = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 
     #Detect faces first
-    faces = face_detector.detectMultiScale(frame_grayscale)     # a list of points, each list contains 4 points.
+    faces = face_detector.detectMultiScale(frame_grayscale)     #The output is a list of points, each list contains 4 points,which represents face coordinate.
 
     #Run face detection within each of those faces
-    for (x,y,w,h) in faces: #x,y:coordinate of top left of the face; w,h:width,height
+    for (x,y,w,h) in faces: #x,y:coordinate of top left of the face; w,h:width, height
 
         #Draw a rectangle around the face
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),5)  #frame:Back to Color image; (x,y):Top left coordinate of face; (x+w,y+h):Bottom right coordinate of face;(0,255,0):BGR;5:thickness of rectangle.
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),5)  #frame:Back to Color image; (x,y):Top left coordinate of face; (x+w,y+h):Bottom right coordinate of face; (0,255,0):BGR; 5:thickness of rectangle.
 
         #Get the sub frame (using numpy N-dimensional array slicing)
-        the_face = frame[y:y+h, x:x+w]
+        the_face = frame[y:y+h, x:x+w]      #OpenCV is including numpy structure.
 
         #Change to grayscale
         face_grayscale = cv2.cvtColor(the_face,cv2.COLOR_BGR2GRAY)
 
         #Detect smile
-        smiles = smile_detector.detectMultiScale(face_grayscale,scaleFactor=1.7,minNeighbors=30)   #scaleFactor:Bigger value > More blur,easy to find facial feature ,, Smaller value > less blur, less accuricy of feature; minNeighbors: Bigger value > Less detection but higher quality.
+        smiles = smile_detector.detectMultiScale(face_grayscale,scaleFactor=1.7,minNeighbors=30)   #scaleFactor:Bigger value > More blur but easy to find facial feature ,, Smaller value > less blur but less accuricy of feature; minNeighbors: Bigger value > Less detection but higher quality.
 
         #Find all smiles in the face
         for (x_, y_, w_, h_) in smiles:
@@ -60,9 +60,9 @@ while True:
             cv2.putText(frame, 'Smiling', (x,y+h+40),fontScale=3,fontFace=cv2.FONT_HERSHEY_PLAIN,color=(255,255,255))
 
     #Show the current frame
-    cv2.imshow('Smile Detector',frame)      #Title:'Smile Detector'; read single frame
+    cv2.imshow('Smile Detector',frame)      #Title:'Smile Detector'; read single frame.
 
-    #Display, every 1ms get a disply
+    #Display, every 1 ms get one disply
     cv2.waitKey(1)   #If there is no parameter, once type anykey will change the frame display.
 
 #Cleanup
